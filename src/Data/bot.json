@@ -1,0 +1,9 @@
+{
+    "bot": [
+        {
+            "id": 1,
+            "name": "bot-name",
+            "url": "webhook-url"
+        }
+    ]
+}
