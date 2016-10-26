@@ -1,0 +1,15 @@
+{
+    "name": "root/littlebot-hook",
+    "authors": [
+        {
+            "name": "rainycheng",
+            "email": "believeu123@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "LittleBot\\": "src/"
+        }
+    },
+    "require": {}
+}

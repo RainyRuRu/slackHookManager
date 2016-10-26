@@ -1,15 +1,10 @@
 <?php
 
-namespace LittleBot;
+namespace LittleBot\Job;
 
 class SlackHook
 {
-    private $url;
-
-    public function  __construct($url) {
-        $this->url = $url;
-    }
-    public function log($msg) {
+    public static function send($url, $msg) {
         $payload = [
             'text' => $msg,
             'channel' => '#hello_sherman',
@@ -18,7 +13,7 @@ class SlackHook
         $data = [
             'payload' => json_encode($payload),
         ];
-        $ch = curl_init($this->url);
+        $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
