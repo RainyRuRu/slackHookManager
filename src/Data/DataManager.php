@@ -7,10 +7,10 @@ class DataManager
     private static $bot_path = __DIR__ . '/bot.json';
     private static $message_path = __DIR__ . '/message.json';
 
-    public static function readBot()
+    public static function getAllBot()
     {
         $data = json_decode(file_get_contents(static::$bot_path), true);
-        return $data;
+        return $data['bot'];
     }
 
     public static function getAllMessage()
