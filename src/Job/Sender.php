@@ -2,55 +2,25 @@
 
 namespace LittleBot\Job;
 
-use LittleBot\Data\DataManager;
-use LittleBot\Job\SlackHook;
+use LittleBot\Config;
 
 class Sender
 {
-    private $slack;
-
-    public function __construct()
+    public function run()
     {
-        $this->slack = new SlackHook();
+        $this->loadPlugin();
     }
 
-    public function run() {
-        $messages = DataManager::getAllMessage();
-        foreach ($messages as $m) {
-            $go = $this->checkTime($m);
-            if ($go) {
-                $url = DataManager::getUrlById($m['id']);
-                $this->slack->send($url, $m['message']);
-            }
-        }
-    }
-
-    private function checkTime($m)
+    private function loadPlugin()
     {
-        $fiveMinute = strtotime("+5 minutes");
-        $timestamp = 0;
-
-        $week = date('N') - 1;
-        if ($m['repeat'][$week] !== "1" && $m['repeat'] !== "00000") {
-            return false;
+        foreach ($this->getPlugin() as $pluginClass) {
+            $plugin = new $pluginClass();
+            $plugin->run();
         }
-
-        if ($m['repeat'] === '00000') {
-            var_dump("hi");
-            $timestamp = strtotime($m['date']);
-        } else {
-            $today = date('Y-m-d', time());
-            $date = explode(" ", $m['date']);
-            $time = $date[1];
-            $timestamp = strtotime($today . " " . $time);
-        }
-
-        if (time() <= $timestamp && $timestamp < $fiveMinute) {
-            return true;
-        }
-
-        return false;
-
     }
 
+    private function getPlugin()
+    {
+        return Config::get("plugin");
+    }
 }
