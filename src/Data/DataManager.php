@@ -7,10 +7,10 @@ class DataManager
     private static $bot_path = __DIR__ . '/bot.json';
     private static $message_path = __DIR__ . '/message.json';
 
-    public static function readBot()
+    public static function getAllBot()
     {
         $data = json_decode(file_get_contents(static::$bot_path), true);
-        return $data;
+        return $data['bot'];
     }
 
     public static function getAllMessage()
@@ -22,6 +22,7 @@ class DataManager
 
     public static function getUrlById($id)
     {
+        //Todo: 可以接 getBotInfo
         $url = null;
         $data = json_decode(file_get_contents(static::$bot_path), true);
         foreach ($data['bot'] as $b) {
@@ -31,5 +32,18 @@ class DataManager
             }
         }
         return $url;
+    }
+
+    public static function getBotInfo($id)
+    {
+        $bot_info = [];
+        $data = json_decode(file_get_contents(static::$bot_path), true);
+        foreach ($data['bot'] as $b) {
+            if ($b['id'] === (int)$id) {
+                $bot_info = $b;
+                break;
+            }
+        }
+        return $bot_info;
     }
 }
